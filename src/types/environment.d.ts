@@ -9,5 +9,7 @@ declare namespace NodeJS {
     REFRESH_TOKEN_SECRET_KEY: string;
     ACCESS_TOKEN_EXPIRES_IN: string;
     REFRESH_TOKEN_EXPIRES_IN: string;
+    MONGO_DB_PASSWORD: string;
+    MONGO_DB_USER: string;
   }
 }

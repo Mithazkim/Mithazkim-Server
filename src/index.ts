@@ -1,10 +1,14 @@
 import express from 'express';
 import logger from './utils/logger';
 import routes from './api';
-import './config/env';
+import './config/env'; // must import .env before using the process.env
+import connectToDb from './config/db';
 
 const app = express();
+
 routes(app);
+
+connectToDb();
 
 const port = process.env.PORT || 4000;
 
