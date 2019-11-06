@@ -32,8 +32,8 @@ process.on('unhandledRejection', ex => {
   throw ex;
 });
 
-process.on('uncaughtException', () => {
-  console.log('WE GOT AN UNCAUGHT EXCEPTION');
+process.on('uncaughtException', e => {
+  console.log('WE GOT AN UNCAUGHT EXCEPTION', e);
 });
 
 export default logger;
