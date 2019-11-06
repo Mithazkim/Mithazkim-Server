@@ -1,17 +1,17 @@
+import { IUser } from './../models/userModel';
 import { hashPassword } from './../utils/common';
+import { userRepository } from '../repositories';
 
-export function getUserByEmail(email: string) {
-  // TODO: Remove fake data, and go to db and get the real user
-  return Promise.resolve({ id: '123', email, password: '1234' });
+export function getUserByUsername(username: string) {
+  return userRepository.getUserByUsername(username);
 }
 
 export function getUserById(id: string) {
-  // TODO: Remove fake data, and go to db and get the real user
-  return Promise.resolve({ id, email: 'fake@mock.com', password: '1234' });
+  return userRepository.getUserById(id);
 }
 
-export async function create(user: { email: string; password: string }) {
+export async function createUser(user: IUser) {
   user.password = await hashPassword(user.password);
 
-  // TODO: create the user in db
+  return userRepository.createUser(user);
 }

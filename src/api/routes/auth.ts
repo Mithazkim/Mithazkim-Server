@@ -14,7 +14,7 @@ router.post('/refreshToken', async (req, res) => {
     const decoded = jwtService.validateRefreshToken(req.body.refreshToken);
 
     if (!decoded) return res.status(401).end();
-    const user = await userManager.getUserById(decoded.id);
+    const user = await userManager.getUserById(decoded._id);
 
     // Create tokens
     const [accessToken, refreshToken] = jwtService.generateAuthTokens(user);

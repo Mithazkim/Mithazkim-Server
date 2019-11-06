@@ -1,25 +1,26 @@
+import { IUserDocument } from './../models/userModel';
 import jwt from 'jsonwebtoken';
 
-export const generateAccessToken = (payload: string | object, options?: jwt.SignOptions) => {
+export const generateAccessToken = (payload: object, options?: jwt.SignOptions) => {
   return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET_KEY, {
     expiresIn: process.env.ACCESS_TOKEN_EXPIRES_IN,
     ...options
   });
 };
 
-export const generateRefreshToken = (payload: string | object, options?: jwt.SignOptions) => {
+export const generateRefreshToken = (payload: object, options?: jwt.SignOptions) => {
   return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET_KEY, {
     expiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN,
     ...options
   });
 };
 
-export const generateAuthTokens = (user: any) => {
+export const generateAuthTokens = (user: IUserDocument) => {
   delete user.password;
 
   // Create token
-  const accessToken = generateAccessToken(user);
-  const refreshToken = generateRefreshToken({ id: user.id });
+  const accessToken = generateAccessToken(user.toJSON());
+  const refreshToken = generateRefreshToken({ id: user._id });
   return [accessToken, refreshToken];
 };
 
@@ -32,6 +33,6 @@ export const validateRefreshToken = (token: string): jwtPayload => {
 };
 
 export type jwtPayload = {
-  email: string;
-  id: string;
+  _id: string;
+  username: string;
 };

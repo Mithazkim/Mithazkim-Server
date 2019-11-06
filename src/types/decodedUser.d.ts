@@ -9,6 +9,6 @@ interface DecodedUser {
   user: User;
 }
 interface User {
-  _id?: string;
-  email: string;
+  _id: string;
+  username: string;
 }

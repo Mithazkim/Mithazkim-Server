@@ -2,6 +2,7 @@ import express from 'express';
 import bcrypt from 'bcryptjs';
 import { userManager } from '../../managers';
 import * as jwtService from '../../services/jwtService';
+import auth from '../middlewares/auth';
 
 const router = express.Router();
 
@@ -11,13 +12,13 @@ const router = express.Router();
  * Login with username and password
  */
 router.post('/login', async function(req, res) {
-  const { email, password }: { email: string; password: string } = req.body;
+  const { username, password }: { username: string; password: string } = req.body;
 
   // Simple validation
-  if (!email || !password) return res.status(400).json({ msg: 'all fields are required' });
+  if (!username || !password) return res.status(400).json({ msg: 'all fields are required' });
 
   // Check for existing user
-  const user = await userManager.getUserByEmail(email);
+  const user = await userManager.getUserByUsername(username);
   if (!user) return res.status(400).json({ msg: 'user does not exist' });
 
   // Validate password
@@ -32,20 +33,20 @@ router.post('/login', async function(req, res) {
 
 /**
  * POST /api/user/register
- * Public
+ * Private
  * Creates new user and return tokens
  */
-router.post('/register', async (req, res) => {
-  const { email, password }: { email: string; password: string } = req.body;
+router.post('/register', auth, async (req, res) => {
+  const { username, password }: { username: string; password: string } = req.body;
 
   // Simple validation
-  if (!email || !password) return res.status(400).json({ msg: 'all fields are required' });
+  if (!username || !password) return res.status(400).json({ msg: 'all fields are required' });
 
   // Check for existing user
-  const user = await userManager.getUserByEmail(email);
+  let user = await userManager.getUserByUsername(username);
   if (user) return res.status(400).json({ msg: 'user already registered' });
 
-  userManager.create({ email, password });
+  user = await userManager.createUser({ username, password });
 
   // Create tokens
   const [accessToken, refreshToken] = jwtService.generateAuthTokens(user);
