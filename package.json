@@ -10,6 +10,7 @@
     "build": "yarn build-ts && yarn lint",
     "build-ts": "tsc",
     "lint": "tsc --noEmit && eslint \"**/*.{js,ts}\" --quiet --fix",
+    "postinstall": "yarn build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Israel kusayev",
