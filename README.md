@@ -6,7 +6,9 @@
 
 To start the server:
 
-First make sure you have yarn installed
+Add .env file, with all the environment variables that inside the src/types/environment.d.ts file
+
+Make sure you have yarn installed
 
 And then run:
 
