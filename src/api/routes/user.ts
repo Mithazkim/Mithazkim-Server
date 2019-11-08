@@ -51,7 +51,7 @@ router.post('/register', auth, async (req, res) => {
   // Create tokens
   const [accessToken, refreshToken] = jwtService.generateAuthTokens(user);
 
-  res.status(200).json({ accessToken, refreshToken });
+  res.status(201).json({ accessToken, refreshToken });
 });
 
 export default router;
