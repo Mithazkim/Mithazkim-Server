@@ -8,6 +8,8 @@ import 'express-async-errors'; // handle all async errors and send them to error
 import errorMiddleware from './middlewares/error';
 import authRouter from './routes/auth';
 import userRouter from './routes/user';
+import berakhahRouter from './routes/berakhah';
+import foodRouter from './routes/food';
 
 function initMiddlewares(app: express.Application) {
   // Enable Cross Origin Resource Sharing to all origins by default
@@ -28,8 +30,10 @@ function initMiddlewares(app: express.Application) {
 
 function initRoutes(app: express.Application) {
   initMiddlewares(app);
-  app.use('/api/auth', authRouter);
   app.use('/api/user', userRouter);
+  app.use('/api/auth', authRouter);
+  app.use('/api/berakhah', berakhahRouter);
+  app.use('/api/food', foodRouter);
   app.use(errorMiddleware);
 }
 
