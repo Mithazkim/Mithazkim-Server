@@ -1,5 +1,5 @@
 import { foodRepository } from '../repositories';
-import { IFood } from '../models/FoodModel';
+import { IFood } from '../models/foodModel';
 
 export function getFood() {
   return foodRepository.getFood();
