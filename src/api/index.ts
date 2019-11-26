@@ -30,6 +30,11 @@ function initMiddlewares(app: express.Application) {
 
 function initRoutes(app: express.Application) {
   initMiddlewares(app);
+
+  app.get('/api/status', (req, res) => {
+    res.status(200).end();
+  });
+
   app.use('/api/user', userRouter);
   app.use('/api/auth', authRouter);
   app.use('/api/berakhah', berakhahRouter);
