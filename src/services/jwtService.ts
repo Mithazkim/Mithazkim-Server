@@ -33,6 +33,6 @@ export const validateRefreshToken = (token: string): jwtPayload => {
 };
 
 export type jwtPayload = {
-  _id: string;
+  id: string;
   username: string;
 };

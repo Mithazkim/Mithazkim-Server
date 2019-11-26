@@ -36,6 +36,9 @@ router.post('/', auth, async function(req, res) {
   // Simple validations
   if (!name || !berakhahId) return res.status(400).json({ msg: 'fullName is required' });
 
+  const isFoodFound = !!foodManager.getFoodByName(name);
+  if (isFoodFound) return res.status(400).json({ msg: 'err_food_exists' });
+
   const food = await foodManager.createFood({ name, berakhahId });
   res.status(201).json(food);
 });

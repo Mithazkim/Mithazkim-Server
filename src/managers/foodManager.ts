@@ -9,6 +9,10 @@ export function getFoodById(id: string) {
   return foodRepository.getFoodById(id);
 }
 
+export function getFoodByName(name: string) {
+  return foodRepository.getFoodByName(name);
+}
+
 export function createFood(Food: IFood) {
   return foodRepository.createFood(Food);
 }

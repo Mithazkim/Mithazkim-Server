@@ -8,6 +8,10 @@ export function getFoodById(id: string) {
   return Food.findById(id);
 }
 
+export function getFoodByName(name: string) {
+  return Food.findOne({ name });
+}
+
 export function createFood(food: IFood) {
   return Food.create(food);
 }
