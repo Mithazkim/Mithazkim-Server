@@ -11,7 +11,8 @@ const router = express.Router();
  * get all food
  */
 router.get('/', async function(req, res) {
-  const food = await foodManager.getFood();
+  const { search } = req.query;
+  const food = await foodManager.getFood(search);
   res.status(200).send(food);
 });
 

@@ -1,8 +1,8 @@
 import { foodRepository } from '../repositories';
 import { IFood } from '../models/foodModel';
 
-export function getFood() {
-  return foodRepository.getFood();
+export function getFood(search?: string) {
+  return foodRepository.getFood(search);
 }
 
 export function getFoodById(id: string) {
