@@ -1,7 +1,7 @@
 import Food, { IFood } from '../models/foodModel';
-
-export function getFood() {
-  return Food.find();
+export function getFood(search: string) {
+  const condition = search ? { name: { $regex: search } } : null;
+  return Food.find(condition);
 }
 
 export function getFoodById(id: string) {

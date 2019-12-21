@@ -1,6 +1,8 @@
 import mongoose, { ConnectionOptions } from 'mongoose';
 import logger from '../utils/logger';
 
+if (process.env.NODE_ENV === 'development') mongoose.set('debug', true);
+
 const dbName = 'mithazkim-db';
 
 const connectionString = `mongodb+srv://${process.env.MONGO_DB_USER}:${process.env.MONGO_DB_PASSWORD}@mithazkim-cluster-utnxc.mongodb.net/${dbName}?retryWrites=true&w=majority`;
