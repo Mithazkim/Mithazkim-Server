@@ -16,10 +16,8 @@ export const generateRefreshToken = (payload: object, options?: jwt.SignOptions)
 };
 
 export const generateAuthTokens = (user: IUserDocument) => {
-  delete user.password;
-
   // Create token
-  const accessToken = generateAccessToken(user.toJSON());
+  const accessToken = generateAccessToken({ _id: user._id, username: user.username });
   const refreshToken = generateRefreshToken({ id: user._id });
   return [accessToken, refreshToken];
 };
