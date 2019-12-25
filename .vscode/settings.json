@@ -14,5 +14,6 @@
     "**/dist": true,
     "**/coverage": true
   },
-  "cSpell.words": ["berakhah", "berakhot", "consts"]
+  "cSpell.words": ["berakhah", "berakhot", "category", "consts", "mitzva"],
+  "cSpell.ignoreWords": ["category", "i", "mitzva"]
 }
