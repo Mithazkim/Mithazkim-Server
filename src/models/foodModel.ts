@@ -11,8 +11,12 @@ export interface IFood {
 export interface IFoodDocument extends Document, IFood {}
 
 export const foodSchema = new Schema({
-  name: { type: String, required: true, trim: true, unique: true },
-  berakhahId: { type: Schema.Types.ObjectId, required: true, ref: Consts.db.berakhotTableName },
+  name: { type: String, required: [true, 'err_food_name_required'], trim: true, unique: true },
+  berakhahId: {
+    type: Schema.Types.ObjectId,
+    required: [true, 'err_food_berakhahId_required'],
+    ref: Consts.db.berakhotTableName
+  },
   active: { type: Boolean, default: false },
   suggested: { type: Boolean, default: false }
 });

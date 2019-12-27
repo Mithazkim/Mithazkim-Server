@@ -9,8 +9,8 @@ export interface IUser {
 export interface IUserDocument extends Document, IUser {}
 
 export const UserSchema = new Schema({
-  username: { type: String, required: true, unique: true, trim: true },
-  password: { type: String, required: true, trim: true }
+  username: { type: String, required: true, unique: [true, 'err_username_required'], trim: true },
+  password: { type: String, required: [true, 'err_password_required'], trim: true }
 });
 
 const User = model<IUserDocument>(Consts.db.userTableName, UserSchema, Consts.db.userTableName);
