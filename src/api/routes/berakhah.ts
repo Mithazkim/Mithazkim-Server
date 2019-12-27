@@ -1,3 +1,4 @@
+import { isObjectEmpty } from './../../utils/common';
 import express from 'express';
 import { IBerakhah } from './../../models/berakhahModel';
 import { berakhahManager } from '../../managers';
@@ -46,12 +47,10 @@ router.post('/', auth, async function(req, res) {
  * Add berakhah
  */
 router.put('/:id', auth, async function(req, res) {
-  const { shortName, fullName }: IBerakhah = req.body;
-
   // Simple validations
-  if (!fullName) return res.status(400).json({ msg: 'fullName is required' });
+  if (isObjectEmpty(req.body)) return res.status(400).json({ msg: 'err_missing_fields' });
 
-  const berakhah = await berakhahManager.updateBerakhah(req.params.id, { fullName, shortName });
+  const berakhah = await berakhahManager.updateBerakhah(req.params.id, req.body);
   res.status(200).json(berakhah);
 });
 

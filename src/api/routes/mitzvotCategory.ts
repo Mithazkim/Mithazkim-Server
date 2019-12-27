@@ -1,3 +1,4 @@
+import { isObjectEmpty } from './../../utils/common';
 import express from 'express';
 import { IMitzvotCategory } from '../../models/mitzvotCategoryModel';
 import { mitzvotCategoryManager } from '../../managers';
@@ -41,17 +42,15 @@ router.post('/', auth, async function(req, res) {
 });
 
 /**
- * PUT /api/mitzvotCategory/:id
+ * PATCH /api/mitzvotCategory/:id
  * Private
  * Edit category
  */
-router.put('/:id', auth, async function(req, res) {
-  const { title }: IMitzvotCategory = req.body;
+router.patch('/:id', auth, async function(req, res) {
+  // Simple validations
+  if (isObjectEmpty(req.body)) return res.status(400).json({ msg: 'err_missing_fields' });
 
-  //Simple validation
-  if (!title) return res.status(400).json({ msg: 'err_title_required' });
-
-  const category = await mitzvotCategoryManager.updateCategory(req.params.id, { title });
+  const category = await mitzvotCategoryManager.updateCategory(req.params.id, req.body);
   res.status(200).json(category);
 });
 
