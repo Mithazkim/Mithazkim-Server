@@ -4,12 +4,11 @@ import { IMitzva } from '../models/mitzvaModel';
 export async function getMitzvot(search?: string, page?: string, limit?: string) {
   const total = await mitzvaRepository.getTotalMitzvotCount();
   const pageInt = parseInt(page, 10) || 1;
-  const limitInt = parseInt(limit, 10) || 25;
+  const limitInt = parseInt(limit, 10) || 10;
   const startIndex = (pageInt - 1) * limitInt;
   const endIndex = pageInt * limitInt;
 
-  if (endIndex > total) {
-    //need to change this one
+  if (endIndex - limitInt > total) {
     return 'limit greater then total';
   }
   return mitzvaRepository.getMitzvot(search, startIndex, limitInt);
@@ -24,7 +23,7 @@ export function createMitzva(mitzva: IMitzva) {
 }
 
 export function updateMitzva(id: string, mitzva: IMitzva) {
-  mitzvaRepository.updateMitzva(id, mitzva);
+  return mitzvaRepository.updateMitzva(id, mitzva);
 }
 
 export function deleteMitzva(id: string) {

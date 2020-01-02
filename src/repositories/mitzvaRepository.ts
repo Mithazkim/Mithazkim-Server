@@ -2,12 +2,11 @@ import Mitzva, { IMitzva, IMitzvaDocument } from '../models/mitzvaModel';
 import { DocumentQuery } from 'mongoose';
 
 export function getMitzvot(search: string, startIndex: number, limit: number) {
-  let query: DocumentQuery<IMitzvaDocument[], IMitzvaDocument, {}>;
+  const query: DocumentQuery<IMitzvaDocument[], IMitzvaDocument, {}> = Mitzva.find(
+    search ? { title: { $regex: search } } : null
+  );
 
-  if (search) {
-    query.find({ title: { $regex: search } });
-  }
-  if (startIndex && limit) {
+  if ((startIndex || startIndex === 0) && limit) {
     query.skip(startIndex).limit(limit);
   }
 
@@ -29,9 +28,11 @@ export function createMitzva(mitzva: IMitzva) {
 export function updateMitzva(id: string, mitzva: IMitzva) {
   console.log(mitzva);
   console.log(id);
-  return Mitzva.findByIdAndUpdate(id, mitzva, { new: true, runValidators: true });
+  return Mitzva.findByIdAndUpdate(id, mitzva, { new: true, runValidators: true }, function(err) {
+    console.log(err);
+  });
 }
 
 export function deleteMitzva(id: string) {
-  Mitzva.findByIdAndDelete(id);
+  return Mitzva.findByIdAndDelete(id);
 }
