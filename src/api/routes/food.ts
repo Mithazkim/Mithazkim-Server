@@ -1,3 +1,4 @@
+import { isObjectEmpty } from './../../utils/common';
 import express from 'express';
 import { IFood } from './../../models/foodModel';
 import { foodManager } from '../../managers';
@@ -35,29 +36,26 @@ router.post('/', auth, async function(req, res) {
   const { name, berakhahId }: IFood = req.body;
 
   // Simple validations
-  if (!name || !berakhahId) return res.status(400).json({ msg: 'fullName is required' });
+  if (!name || !berakhahId) return res.status(400).json({ msg: 'err_missing_fields' });
 
   const isFoodFound = await foodManager.getFoodByName(name);
-  console.log(isFoodFound);
 
   if (isFoodFound) return res.status(400).json({ msg: 'err_food_exists' });
 
-  const food = await foodManager.createFood({ name, berakhahId });
+  const food = await foodManager.createFood(req.body);
   res.status(201).json(food);
 });
 
 /**
- * PUT /api/food/:id
+ * PATCH /api/food/:id
  * Private
- * Add food
+ * Edit food
  */
-router.put('/:id', auth, async function(req, res) {
-  const { name, berakhahId }: IFood = req.body;
-
+router.patch('/:id', auth, async function(req, res) {
   // Simple validations
-  if (!name || !berakhahId) return res.status(400).json({ msg: 'fullName is required' });
+  if (isObjectEmpty(req.body)) return res.status(400).json({ msg: 'err_missing_fields' });
 
-  const food = await foodManager.updateFood(req.params.id, { name, berakhahId });
+  const food = await foodManager.updateFood(req.params.id, req.body);
   res.status(200).json(food);
 });
 
