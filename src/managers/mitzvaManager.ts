@@ -1,28 +1,27 @@
 import { mitzvaRepository } from '../repositories';
 import { IMitzva, IMitzvaDocument } from '../models/mitzvaModel';
-import Consts from '../utils/consts';
+import { StartGreaterThanTotalError } from '../utils/errors';
+import { getStartIndexAndLimit } from '../utils/pagination';
 
-export async function getMitzvot(
-  search?: string,
-  page?: string,
-  limit?: string
-): Promise<[number, IMitzvaDocument[] | string]> {
-  const total = await mitzvaRepository.getTotalMitzvotCount(search);
-  const pageInt = parseInt(page, 10) || Consts.page;
-  const limitInt = parseInt(limit, 10) || Consts.limit;
-  const startIndex = (pageInt - 1) * limitInt;
-  const endIndex = pageInt * limitInt;
+export async function getMitzvot(search?: string, page?: string, limit?: string): Promise<[number, IMitzvaDocument[]]> {
+  const total = await mitzvaRepository.getMitzvotCount(search);
 
-  if (endIndex - limitInt > total) {
-    return [total, 'limit greater then total'];
-  }
+  const [start, skip] = getStartIndexAndLimit(page, limit);
 
-  const res = await mitzvaRepository.getMitzvot(search, startIndex, limitInt);
-  return [total, res];
+  if (total === 0) return [0, []];
+
+  if (start > total) throw new StartGreaterThanTotalError('err_start_greater_than_total');
+
+  const mitzvot = await mitzvaRepository.getMitzvot(search, start, skip);
+  return [total, mitzvot];
 }
 
 export function getMitzvaById(id: string) {
   return mitzvaRepository.getMitzvaById(id);
+}
+
+export function getMitzvaByTitle(title: string) {
+  return mitzvaRepository.getMitzvaByTitle(title);
 }
 
 export function createMitzva(mitzva: IMitzva) {

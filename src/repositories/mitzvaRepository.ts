@@ -2,24 +2,24 @@ import Mitzva, { IMitzva, IMitzvaDocument } from '../models/mitzvaModel';
 import { DocumentQuery } from 'mongoose';
 
 export function getMitzvot(search: string, startIndex: number, limit: number) {
-  const query: DocumentQuery<IMitzvaDocument[], IMitzvaDocument, {}> = Mitzva.find(
-    search ? { title: { $regex: search } } : null
-  );
+  let query: DocumentQuery<IMitzvaDocument[], IMitzvaDocument, {}>;
 
-  if ((startIndex || startIndex === 0) && limit) {
-    query.skip(startIndex).limit(limit);
+  const condition = search ? { title: { $regex: search } } : null;
+  query = Mitzva.find(condition);
+
+  if (limit) {
+    query = query.skip(startIndex || 0).limit(limit);
   }
 
   return query;
 }
 
-export function getTotalMitzvotCount(search: string) {
-  return Mitzva.find({ title: { $regex: search } }).countDocuments();
-  //return Mitzva.countDocuments(search ? { title: { $regex: search } } : null);
-}
-
 export function getMitzvaById(id: string) {
   return Mitzva.findById(id);
+}
+
+export function getMitzvaByTitle(title: string) {
+  return Mitzva.findOne({ title });
 }
 
 export function createMitzva(mitzva: IMitzva) {
@@ -27,13 +27,14 @@ export function createMitzva(mitzva: IMitzva) {
 }
 
 export function updateMitzva(id: string, mitzva: IMitzva) {
-  console.log(mitzva);
-  console.log(id);
-  return Mitzva.findByIdAndUpdate(id, mitzva, { new: true, runValidators: true }, function(err) {
-    console.log(err);
-  });
+  return Mitzva.findByIdAndUpdate(id, mitzva, { new: true, runValidators: true });
 }
 
 export function deleteMitzva(id: string) {
   return Mitzva.findByIdAndDelete(id);
+}
+
+export function getMitzvotCount(search?: string) {
+  const condition = search ? { title: { $regex: search } } : null;
+  return Mitzva.countDocuments(condition);
 }

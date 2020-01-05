@@ -13,10 +13,14 @@ export interface IMitzva {
 export interface IMitzvaDocument extends Document, IMitzva {}
 
 export const mitzvaSchema = new Schema({
-  title: { type: String, required: true, trim: true, unique: true },
+  title: { type: String, required: [true, 'err_mitzva_title_required'], trim: true, unique: true },
   why: { type: String, trim: true, maxlength: 1000 },
   how: { type: String, trim: true, maxlength: 1000 },
-  categoryId: { type: Schema.Types.ObjectId, required: true, ref: Consts.db.mitzvotCategoriesTableName },
+  categoryId: {
+    type: Schema.Types.ObjectId,
+    required: [true, 'err_mitzva_categoryId_required'],
+    ref: Consts.db.mitzvotCategoriesTableName
+  },
   active: { type: Boolean, default: false },
   rank: { type: Number, default: 0 }
 });

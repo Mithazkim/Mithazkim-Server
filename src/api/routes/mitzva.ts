@@ -1,3 +1,5 @@
+import { StartGreaterThanTotalError } from './../../utils/errors';
+import { isObjectEmpty } from './../../utils/common';
 import express from 'express';
 import { IMitzva } from './../../models/mitzvaModel';
 import { mitzvaManager } from '../../managers';
@@ -12,8 +14,16 @@ const router = express.Router();
  */
 router.get('/', async function(req, res) {
   const { search, page, limit } = req.query;
-  const mitzvot = await mitzvaManager.getMitzvot(search, page, limit);
-  res.status(200).json(mitzvot);
+
+  try {
+    const [total, data] = await mitzvaManager.getMitzvot(search, page, limit);
+    res.status(200).send({ total, data });
+  } catch (error) {
+    if (error instanceof StartGreaterThanTotalError) {
+      return res.status(400).send({ msg: error.message });
+    }
+    throw error;
+  }
 });
 
 /**
@@ -37,6 +47,10 @@ router.post('/', auth, async function(req, res) {
   //simple validation
   if (!title || !categoryId) return res.status(400).json({ msg: 'err_missing_fields' });
 
+  const isMitzvaFound = await mitzvaManager.getMitzvaByTitle(title);
+
+  if (isMitzvaFound) return res.status(400).json({ msg: 'err_mitzva_exists' });
+
   const mitzva = await mitzvaManager.createMitzva(req.body);
   res.status(201).json(mitzva);
 });
@@ -47,12 +61,10 @@ router.post('/', auth, async function(req, res) {
  * Edit mitzva
  */
 router.patch('/:id', auth, async function(req, res) {
-  const { title, how, why, active, categoryId, rank }: IMitzva = req.body;
-
   //simple validation
-  if (!title || !categoryId) return res.status(400).json('err_title_and_categoryId_required');
+  if (isObjectEmpty(req.body)) return res.status(400).json('err_missing_fields');
 
-  const mitzva = await mitzvaManager.updateMitzva(req.params.id, { title, how, why, active, categoryId, rank });
+  const mitzva = await mitzvaManager.updateMitzva(req.params.id, req.body);
   res.status(200).json(mitzva);
 });
 
