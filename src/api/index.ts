@@ -11,6 +11,7 @@ import userRouter from './routes/user';
 import berakhahRouter from './routes/berakhah';
 import foodRouter from './routes/food';
 import mitzvotCategoryRouter from './routes/mitzvotCategory';
+import mitzvaRouter from './routes/mitzva';
 
 function initMiddlewares(app: express.Application) {
   // Enable Cross Origin Resource Sharing to all origins by default
@@ -41,6 +42,7 @@ function initRoutes(app: express.Application) {
   app.use('/api/berakhah', berakhahRouter);
   app.use('/api/food', foodRouter);
   app.use('/api/mitzvotCategory', mitzvotCategoryRouter);
+  app.use('/api/mitzva', mitzvaRouter);
   app.use(errorMiddleware);
 }
 

@@ -3,7 +3,8 @@ const Consts = {
     userTableName: 'Users',
     berakhotTableName: 'Berakhot',
     foodTableName: 'Food',
-    mitzvotCategoriesTableName: 'mitzvotCategories'
+    mitzvotCategoriesTableName: 'mitzvotCategories',
+    mitzvotTableName: 'mitzvot'
   }
 };
 
