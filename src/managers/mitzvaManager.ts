@@ -1,17 +1,24 @@
 import { mitzvaRepository } from '../repositories';
-import { IMitzva } from '../models/mitzvaModel';
+import { IMitzva, IMitzvaDocument } from '../models/mitzvaModel';
+import Consts from '../utils/consts';
 
-export async function getMitzvot(search?: string, page?: string, limit?: string) {
-  const total = await mitzvaRepository.getTotalMitzvotCount();
-  const pageInt = parseInt(page, 10) || 1;
-  const limitInt = parseInt(limit, 10) || 10;
+export async function getMitzvot(
+  search?: string,
+  page?: string,
+  limit?: string
+): Promise<[number, IMitzvaDocument[] | string]> {
+  const total = await mitzvaRepository.getTotalMitzvotCount(search);
+  const pageInt = parseInt(page, 10) || Consts.page;
+  const limitInt = parseInt(limit, 10) || Consts.limit;
   const startIndex = (pageInt - 1) * limitInt;
   const endIndex = pageInt * limitInt;
 
   if (endIndex - limitInt > total) {
-    return 'limit greater then total';
+    return [total, 'limit greater then total'];
   }
-  return mitzvaRepository.getMitzvot(search, startIndex, limitInt);
+
+  const res = await mitzvaRepository.getMitzvot(search, startIndex, limitInt);
+  return [total, res];
 }
 
 export function getMitzvaById(id: string) {

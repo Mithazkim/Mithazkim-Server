@@ -13,7 +13,7 @@ const router = express.Router();
 router.get('/', async function(req, res) {
   const { search, page, limit } = req.query;
   const mitzvot = await mitzvaManager.getMitzvot(search, page, limit);
-  res.status(200).send(mitzvot);
+  res.status(200).json(mitzvot);
 });
 
 /**
@@ -31,26 +31,23 @@ router.get('/:id', async function(req, res) {
  * Private
  * Add mitzva
  */
-router.post('/', async function(req, res) {
-  //need to add auth
-  const { title, how, why, active, categoryId }: IMitzva = req.body;
+router.post('/', auth, async function(req, res) {
+  const { title, categoryId }: IMitzva = req.body;
 
   //simple validation
-  if (!title || !categoryId) return res.status(400).json('err_title_and_categoryId_required');
+  if (!title || !categoryId) return res.status(400).json({ msg: 'err_missing_fields' });
 
-  const rank: number = 0;
-  const mitzva = await mitzvaManager.createMitzva({ title, how, why, active, categoryId, rank });
+  const mitzva = await mitzvaManager.createMitzva(req.body);
   res.status(201).json(mitzva);
 });
 
 /**
- * PUT /api/mitzva/:id
+ * PATCH /api/mitzva/:id
  * Private
  * Edit mitzva
  */
-router.put('/:id', async function(req, res) {
+router.patch('/:id', auth, async function(req, res) {
   const { title, how, why, active, categoryId, rank }: IMitzva = req.body;
-  //need to add auth
 
   //simple validation
   if (!title || !categoryId) return res.status(400).json('err_title_and_categoryId_required');
@@ -64,8 +61,7 @@ router.put('/:id', async function(req, res) {
  * Private
  * Delete mitzva
  */
-router.delete('/:id', async function(req, res) {
-  //need to add auth
+router.delete('/:id', auth, async function(req, res) {
   const mitzva = await mitzvaManager.deleteMitzva(req.params.id);
   res.status(200).json(mitzva);
 });

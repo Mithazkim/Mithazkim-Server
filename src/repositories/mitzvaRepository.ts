@@ -13,8 +13,9 @@ export function getMitzvot(search: string, startIndex: number, limit: number) {
   return query;
 }
 
-export function getTotalMitzvotCount() {
-  return Mitzva.countDocuments();
+export function getTotalMitzvotCount(search: string) {
+  return Mitzva.find({ title: { $regex: search } }).countDocuments();
+  //return Mitzva.countDocuments(search ? { title: { $regex: search } } : null);
 }
 
 export function getMitzvaById(id: string) {
