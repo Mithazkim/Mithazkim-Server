@@ -1,7 +1,18 @@
+import { IFoodDocument } from './../models/foodModel';
+import { DocumentQuery } from 'mongoose';
 import Food, { IFood } from '../models/foodModel';
-export function getFood(search: string) {
+
+export function getFood(search: string, startIndex: number, limit: number) {
+  let query: DocumentQuery<IFoodDocument[], IFoodDocument, {}>;
+
   const condition = search ? { name: { $regex: search } } : null;
-  return Food.find(condition);
+  query = Food.find(condition);
+
+  if (limit) {
+    query = query.skip(startIndex || 0).limit(limit);
+  }
+
+  return query;
 }
 
 export function getFoodById(id: string) {
@@ -22,4 +33,10 @@ export function updateFood(id: string, food: IFood) {
 
 export function deleteFood(id: string) {
   return Food.findByIdAndDelete(id);
+}
+
+export function getFoodCount(search?: string) {
+  const condition = search ? { name: { $regex: search } } : null;
+
+  return Food.countDocuments(condition);
 }
