@@ -32,6 +32,10 @@ export function updateMitzva(id: string, mitzva: IMitzva) {
   return mitzvaRepository.updateMitzva(id, mitzva);
 }
 
+export function updateRank(id: string) {
+  return mitzvaRepository.updateRank(id, 1);
+}
+
 export function deleteMitzva(id: string) {
   return mitzvaRepository.deleteMitzva(id);
 }
