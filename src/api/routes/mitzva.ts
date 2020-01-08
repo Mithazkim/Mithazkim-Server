@@ -56,6 +56,16 @@ router.post('/', auth, async function(req, res) {
 });
 
 /**
+ * POST /api/mitzva/:id
+ * Public
+ * Update rank value
+ */
+router.post('/r/:id', async function(req, res) {
+  await mitzvaManager.updateRank(req.params.id);
+  res.status(200).end();
+});
+
+/**
  * PATCH /api/mitzva/:id
  * Private
  * Edit mitzva

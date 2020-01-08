@@ -30,6 +30,10 @@ export function updateMitzva(id: string, mitzva: IMitzva) {
   return Mitzva.findByIdAndUpdate(id, mitzva, { new: true, runValidators: true });
 }
 
+export function updateRank(id: string, quantity: number) {
+  return Mitzva.findByIdAndUpdate(id, { $inc: { rank: quantity } });
+}
+
 export function deleteMitzva(id: string) {
   return Mitzva.findByIdAndDelete(id);
 }
