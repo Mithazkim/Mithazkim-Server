@@ -4,7 +4,7 @@ import { StartGreaterThanTotalError } from '../utils/errors';
 import { getStartIndexAndLimit } from '../utils/pagination';
 
 export async function getMitzvot(search?: string, page?: string, limit?: string): Promise<[number, IMitzvaDocument[]]> {
-  if (search) search = search.trim();
+  search = search?.trim();
 
   const total = await mitzvaRepository.getMitzvotCount(search);
 
