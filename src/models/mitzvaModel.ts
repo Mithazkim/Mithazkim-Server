@@ -25,6 +25,8 @@ export const mitzvaSchema = new Schema({
   rank: { type: Number, default: 0 }
 });
 
+mitzvaSchema.index({ how: 'text', why: 'text' });
+
 const Mitzva = model<IMitzvaDocument>(Consts.db.mitzvotTableName, mitzvaSchema, Consts.db.mitzvotTableName);
 
 export default Mitzva;

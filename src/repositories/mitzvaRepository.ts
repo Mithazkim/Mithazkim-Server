@@ -1,15 +1,22 @@
 import Mitzva, { IMitzva, IMitzvaDocument } from '../models/mitzvaModel';
 import { DocumentQuery } from 'mongoose';
 
+function getSearchMitzvotCondition(search: string) {
+  const words = search.split(' ').filter(word => word);
+
+  return { $or: [...words.map(word => ({ title: { $regex: word } })), { $text: { $search: search } }] };
+}
+
 export function getMitzvot(search: string, startIndex: number, limit: number) {
   let query: DocumentQuery<IMitzvaDocument[], IMitzvaDocument, {}>;
 
-  const condition = search ? { title: { $regex: search } } : null;
-  query = Mitzva.find(condition);
+  if (search) {
+    query = Mitzva.find(getSearchMitzvotCondition(search), { score: { $meta: 'textScore' } }).sort({
+      score: { $meta: 'textScore' }
+    });
+  } else query = Mitzva.find();
 
-  if (limit) {
-    query = query.skip(startIndex || 0).limit(limit);
-  }
+  if (limit) query = query.skip(startIndex || 0).limit(limit);
 
   return query;
 }
@@ -39,6 +46,5 @@ export function deleteMitzva(id: string) {
 }
 
 export function getMitzvotCount(search?: string) {
-  const condition = search ? { title: { $regex: search } } : null;
-  return Mitzva.countDocuments(condition);
+  return Mitzva.countDocuments(search ? getSearchMitzvotCondition(search) : null);
 }
