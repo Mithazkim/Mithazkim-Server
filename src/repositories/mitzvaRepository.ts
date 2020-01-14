@@ -1,5 +1,4 @@
-import Mitzva, { IMitzva, IMitzvaDocument } from '../models/mitzvaModel';
-import { DocumentQuery } from 'mongoose';
+import Mitzva, { IMitzva } from '../models/mitzvaModel';
 
 function getSearchMitzvotCondition(search: string) {
   const words = search.split(' ').filter(word => word);
@@ -7,18 +6,34 @@ function getSearchMitzvotCondition(search: string) {
   return { $or: [...words.map(word => ({ title: { $regex: word } })), { $text: { $search: search } }] };
 }
 
+function getHasTitle(search: string) {
+  const words = search.split(' ').filter(word => word);
+
+  return {
+    $cond: [
+      { $or: [...words.map(word => ({ $regexMatch: { input: '$title', regex: new RegExp(word) } }))] },
+      true,
+      false
+    ]
+  };
+}
+
 export function getMitzvot(search: string, startIndex: number, limit: number) {
-  let query: DocumentQuery<IMitzvaDocument[], IMitzvaDocument, {}>;
-
+  const aggregations = [];
   if (search) {
-    query = Mitzva.find(getSearchMitzvotCondition(search), { score: { $meta: 'textScore' } }).sort({
-      score: { $meta: 'textScore' }
-    });
-  } else query = Mitzva.find();
+    aggregations.push(
+      { $match: { ...getSearchMitzvotCondition(search) } },
+      { $addFields: { hasTitle: getHasTitle(search) } },
+      { $sort: { hasTitle: -1, score: { $meta: 'textScore' } } },
+      { $unset: 'hasTitle' }
+    );
+  }
 
-  if (limit) query = query.skip(startIndex || 0).limit(limit);
+  if (limit) {
+    aggregations.push({ $skip: startIndex || 0 }, { $limit: limit });
+  }
 
-  return query;
+  return aggregations.length === 0 ? Mitzva.find() : Mitzva.aggregate(aggregations);
 }
 
 export function getMitzvaById(id: string) {
