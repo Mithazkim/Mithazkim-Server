@@ -36,12 +36,12 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       - run:
-          name: 'Run lint'
+          name: 'Lint'
           command: yarn run lint
 
       - run:
-          name: 'Build TS'
-          command: yarn run build-ts
+          name: 'Build'
+          command: yarn run build
 
   deploy:
     docker:
