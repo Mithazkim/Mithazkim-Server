@@ -15,11 +15,6 @@ export async function getMitzvot(search?: string, page?: string, limit?: string)
   if (start > total) throw new StartGreaterThanTotalError('err_start_greater_than_total');
 
   const mitzvot = await mitzvaRepository.getMitzvot(search, start, skip);
-  if (search) {
-    const words = search.split(' ').filter(word => word);
-
-    mitzvot.sort(mitzva => (words.some(word => mitzva.title.includes(word)) ? 1 : -1));
-  }
 
   return [total, mitzvot];
 }
