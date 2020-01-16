@@ -3,10 +3,15 @@ import { IMitzva, IMitzvaDocument } from '../models/mitzvaModel';
 import { StartGreaterThanTotalError } from '../utils/errors';
 import { getStartIndexAndLimit } from '../utils/pagination';
 
-export async function getMitzvot(search?: string, page?: string, limit?: string): Promise<[number, IMitzvaDocument[]]> {
+export async function getMitzvot(
+  search?: string,
+  categoryId?: string,
+  page?: string,
+  limit?: string
+): Promise<[number, IMitzvaDocument[]]> {
   search = search?.trim();
 
-  const total = await mitzvaRepository.getMitzvotCount(search);
+  const total = await mitzvaRepository.getMitzvotCount(search, categoryId);
 
   const [start, skip] = getStartIndexAndLimit(page, limit);
 

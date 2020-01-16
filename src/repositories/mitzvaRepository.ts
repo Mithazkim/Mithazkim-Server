@@ -60,6 +60,9 @@ export function deleteMitzva(id: string) {
   return Mitzva.findByIdAndDelete(id);
 }
 
-export function getMitzvotCount(search?: string) {
-  return Mitzva.countDocuments(search ? getSearchMitzvotCondition(search) : null);
+export function getMitzvotCount(search?: string, categoryId?: string) {
+  let q = Mitzva.countDocuments(search ? getSearchMitzvotCondition(search) : null);
+  q.countDocuments(categoryId ? categoryId : null);
+
+  return q;
 }
