@@ -4,7 +4,8 @@ const Consts = {
     berakhotTableName: 'Berakhot',
     foodTableName: 'Food',
     mitzvotCategoriesTableName: 'mitzvotCategories',
-    mitzvotTableName: 'mitzvot'
+    mitzvotTableName: 'mitzvot',
+    userMetadataTableName: 'userMetadata'
   }
 };
 
