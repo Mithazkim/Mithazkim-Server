@@ -3,9 +3,12 @@ import cors from 'cors';
 import morgan from 'morgan';
 import helmet from 'helmet';
 import compression from 'compression';
+import useragent from 'express-useragent';
+import session from 'cookie-session';
 import 'express-async-errors'; // handle all async errors and send them to error middleware.
 
 import errorMiddleware from './middlewares/error';
+import saveUserMetadataMiddleware from './middlewares/saveUserMetadata';
 import authRouter from './routes/auth';
 import userRouter from './routes/user';
 import berakhahRouter from './routes/berakhah';
@@ -28,6 +31,15 @@ function initMiddlewares(app: express.Application) {
 
   // Gzip compressing can greatly decrease the size of the response body and hence increase the speed of a web app.
   app.use(compression());
+
+  app.use(
+    session({ name: 'hasBeenHere', keys: [process.env.SESSION_SECRET], maxAge: +process.env.SESSION_EXPIRED_IN })
+  );
+
+  // Parse useragent header into req.useragent
+  app.use(useragent.express());
+
+  app.use(saveUserMetadataMiddleware);
 }
 
 function initRoutes(app: express.Application) {

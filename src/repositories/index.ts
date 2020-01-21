@@ -3,5 +3,13 @@ import * as berakhahRepository from './berakhahRepository';
 import * as foodRepository from './foodRepository';
 import * as mitzvotCategoryRepository from './mitzvotCategoryRepository';
 import * as mitzvaRepository from './mitzvaRepository';
+import * as userMetadataRepository from './userMetadataRepository';
 
-export { userRepository, berakhahRepository, foodRepository, mitzvotCategoryRepository, mitzvaRepository };
+export {
+  userRepository,
+  berakhahRepository,
+  foodRepository,
+  mitzvotCategoryRepository,
+  mitzvaRepository,
+  userMetadataRepository
+};
