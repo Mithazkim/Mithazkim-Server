@@ -19,7 +19,7 @@ export async function getMitzvot(
 
   if (start > total) throw new StartGreaterThanTotalError('err_start_greater_than_total');
 
-  const mitzvot = await mitzvaRepository.getMitzvot(search, start, skip);
+  const mitzvot = await mitzvaRepository.getMitzvot(search, categoryId, start, skip);
 
   return [total, mitzvot];
 }

@@ -18,7 +18,7 @@ function getHasTitle(search: string) {
   };
 }
 
-export function getMitzvot(search: string, startIndex: number, limit: number) {
+export function getMitzvot(search: string, categoryId: string, startIndex: number, limit: number) {
   const aggregations = [];
   if (search) {
     aggregations.push(
@@ -61,8 +61,9 @@ export function deleteMitzva(id: string) {
 }
 
 export function getMitzvotCount(search?: string, categoryId?: string) {
-  let q = Mitzva.countDocuments(search ? getSearchMitzvotCondition(search) : null);
-  q.countDocuments(categoryId ? categoryId : null);
+  const query = Mitzva.countDocuments(search ? getSearchMitzvotCondition(search) : null);
 
-  return q;
+  if (!search && categoryId) query.countDocuments({ categoryId });
+
+  return query;
 }
