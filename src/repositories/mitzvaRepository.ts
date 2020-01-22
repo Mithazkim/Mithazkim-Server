@@ -26,14 +26,14 @@ const getMatchCategoryId = (categoryId: string) =>
       }
     : {};
 
-export function getMitzvot(search: string, startIndex: number, limit: number, categoryId: string) {
+export function getMitzvot(search: string, categoryId: string, startIndex: number, limit: number) {
   const aggregations = [];
   if (search) {
     aggregations.push(
       { $match: { ...getSearchMitzvotCondition(search) } },
       { $addFields: { ...getHasTitle(search), ...getMatchCategoryId(categoryId) } },
       { $sort: { ...(categoryId && { matchCategoryId: -1 }), hasTitle: -1, score: { $meta: 'textScore' } } },
-      { $unset: 'hasTitle' }
+      { $unset: ['hasTitle', 'matchCategoryId'] }
     );
   } else if (categoryId) {
     aggregations.push({ $match: { categoryId: mongoose.Types.ObjectId(categoryId) } });
@@ -69,10 +69,8 @@ export function deleteMitzva(id: string) {
   return Mitzva.findByIdAndDelete(id);
 }
 
-export function getMitzvotCount(search?: string, categoryId?: string) {
-  const query = Mitzva.countDocuments(search ? getSearchMitzvotCondition(search) : null);
-
-  if (!search && categoryId) query.countDocuments({ categoryId });
-
-  return query;
+export function getMitzvotCount(search: string, categoryId: string) {
+  return Mitzva.countDocuments(
+    !search && categoryId ? { categoryId } : search ? getSearchMitzvotCondition(search) : null
+  );
 }
