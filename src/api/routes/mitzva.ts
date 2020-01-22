@@ -13,10 +13,10 @@ const router = express.Router();
  * Get all mitzvot
  */
 router.get('/', async function(req, res) {
-  const { search, page, limit } = req.query;
+  const { search, categoryId, page, limit } = req.query;
 
   try {
-    const [total, data] = await mitzvaManager.getMitzvot(search, page, limit);
+    const [total, data] = await mitzvaManager.getMitzvot(search, categoryId, page, limit);
     res.status(200).send({ total, data });
   } catch (error) {
     if (error instanceof StartGreaterThanTotalError) {
