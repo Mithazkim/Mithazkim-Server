@@ -1,5 +1,6 @@
 import { Document, model, Schema } from 'mongoose';
 import Consts from '../utils/consts';
+import Errors from '../utils/error-messages';
 
 export interface IMitzvotCategory {
   title: string;
@@ -8,7 +9,7 @@ export interface IMitzvotCategory {
 export interface IMitzvotCategoryDocument extends Document, IMitzvotCategory {}
 
 export const mitzvotCategorySchema = new Schema({
-  title: { type: String, required: [true, 'err_category_title_required'], trim: true, unique: true }
+  title: { type: String, required: [true, Errors.CategoryTitleRequired], trim: true, unique: true }
 });
 
 const MitzvotCategory = model<IMitzvotCategoryDocument>(

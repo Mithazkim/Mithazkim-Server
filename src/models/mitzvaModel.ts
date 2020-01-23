@@ -1,5 +1,6 @@
 import { Document, model, Schema } from 'mongoose';
 import Consts from '../utils/consts';
+import Errors from '../utils/error-messages';
 
 export interface IMitzva {
   title: string;
@@ -13,12 +14,12 @@ export interface IMitzva {
 export interface IMitzvaDocument extends Document, IMitzva {}
 
 export const mitzvaSchema = new Schema({
-  title: { type: String, required: [true, 'err_mitzva_title_required'], trim: true, unique: true },
+  title: { type: String, required: [true, Errors.MitzvaTitleRequired], trim: true, unique: true },
   why: { type: String, trim: true, maxlength: 1000 },
   how: { type: String, trim: true, maxlength: 1000 },
   categoryId: {
     type: Schema.Types.ObjectId,
-    required: [true, 'err_mitzva_categoryId_required'],
+    required: [true, Errors.MitzvaCategoryIdRequired],
     ref: Consts.db.mitzvotCategoriesTableName
   },
   active: { type: Boolean, default: false },

@@ -4,6 +4,7 @@ import express from 'express';
 import { IMitzva } from './../../models/mitzvaModel';
 import { mitzvaManager } from '../../managers';
 import auth from '../middlewares/auth';
+import Errors from '../../utils/error-messages';
 
 const router = express.Router();
 
@@ -45,11 +46,11 @@ router.post('/', auth, async function(req, res) {
   const { title, categoryId }: IMitzva = req.body;
 
   //simple validation
-  if (!title || !categoryId) return res.status(400).json({ msg: 'err_missing_fields' });
+  if (!title || !categoryId) return res.status(400).json({ msg: Errors.MissingFields });
 
   const isMitzvaFound = await mitzvaManager.getMitzvaByTitle(title);
 
-  if (isMitzvaFound) return res.status(400).json({ msg: 'err_mitzva_exists' });
+  if (isMitzvaFound) return res.status(400).json({ msg: Errors.MitzvaExists });
 
   const mitzva = await mitzvaManager.createMitzva(req.body);
   res.status(201).json(mitzva);
@@ -72,7 +73,7 @@ router.post('/r/:id', async function(req, res) {
  */
 router.patch('/:id', auth, async function(req, res) {
   //simple validation
-  if (isObjectEmpty(req.body)) return res.status(400).json('err_missing_fields');
+  if (isObjectEmpty(req.body)) return res.status(400).json(Errors.MissingFields);
 
   const mitzva = await mitzvaManager.updateMitzva(req.params.id, req.body);
   res.status(200).json(mitzva);

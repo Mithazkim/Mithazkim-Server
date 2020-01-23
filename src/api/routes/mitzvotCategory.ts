@@ -3,6 +3,7 @@ import express from 'express';
 import { IMitzvotCategory } from '../../models/mitzvotCategoryModel';
 import { mitzvotCategoryManager } from '../../managers';
 import auth from '../middlewares/auth';
+import Errors from '../../utils/error-messages';
 
 const router = express.Router();
 
@@ -35,7 +36,7 @@ router.post('/', auth, async function(req, res) {
   const { title }: IMitzvotCategory = req.body;
 
   //Simple validation
-  if (!title) return res.status(400).json({ msg: 'err_title_required' });
+  if (!title) return res.status(400).json({ msg: Errors.TitleRequired });
 
   const category = await mitzvotCategoryManager.createCategory({ title });
   res.status(201).json(category);
@@ -48,7 +49,7 @@ router.post('/', auth, async function(req, res) {
  */
 router.patch('/:id', auth, async function(req, res) {
   // Simple validations
-  if (isObjectEmpty(req.body)) return res.status(400).json({ msg: 'err_missing_fields' });
+  if (isObjectEmpty(req.body)) return res.status(400).json({ msg: Errors.MissingFields });
 
   const category = await mitzvotCategoryManager.updateCategory(req.params.id, req.body);
   res.status(200).json(category);

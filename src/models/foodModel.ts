@@ -1,5 +1,6 @@
 import { Document, model, Schema } from 'mongoose';
 import Consts from '../utils/consts';
+import Errors from '../utils/error-messages';
 
 export interface IFood {
   name: string;
@@ -11,10 +12,10 @@ export interface IFood {
 export interface IFoodDocument extends Document, IFood {}
 
 export const foodSchema = new Schema({
-  name: { type: String, required: [true, 'err_food_name_required'], trim: true, unique: true },
+  name: { type: String, required: [true, Errors.FoodNameRequired], trim: true, unique: true },
   berakhahId: {
     type: Schema.Types.ObjectId,
-    required: [true, 'err_food_berakhahId_required'],
+    required: [true, Errors.FoodBerakhahIdRequired],
     ref: Consts.db.berakhotTableName
   },
   active: { type: Boolean, default: false },

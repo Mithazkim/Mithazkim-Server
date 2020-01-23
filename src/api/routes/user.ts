@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import { userManager } from '../../managers';
 import * as jwtService from '../../services/jwtService';
 import auth from '../middlewares/auth';
+import Errors from '../../utils/error-messages';
 
 const router = express.Router();
 
@@ -15,15 +16,15 @@ router.post('/login', async function(req, res) {
   const { username, password }: { username: string; password: string } = req.body;
 
   // Simple validation
-  if (!username || !password) return res.status(400).json({ msg: 'all fields are required' });
+  if (!username || !password) return res.status(400).json({ msg: Errors.AllFieldsRequired });
 
   // Check for existing user
   const user = await userManager.getUserByUsername(username);
-  if (!user) return res.status(400).json({ msg: 'user does not exist' });
+  if (!user) return res.status(400).json({ msg: Errors.UserNotExist });
 
   // Validate password
   const valid = await bcrypt.compare(password, user.password);
-  if (!valid) return res.status(400).json({ msg: 'invalid password' });
+  if (!valid) return res.status(400).json({ msg: Errors.InvalidPassword });
 
   // Create tokens
   const [accessToken, refreshToken] = jwtService.generateAuthTokens(user);
@@ -40,11 +41,11 @@ router.post('/register', auth, async (req, res) => {
   const { username, password }: { username: string; password: string } = req.body;
 
   // Simple validation
-  if (!username || !password) return res.status(400).json({ msg: 'all fields are required' });
+  if (!username || !password) return res.status(400).json({ msg: Errors.AllFieldsRequired });
 
   // Check for existing user
   let user = await userManager.getUserByUsername(username);
-  if (user) return res.status(400).json({ msg: 'user already registered' });
+  if (user) return res.status(400).json({ msg: Errors.UserAlreadyRegistered });
 
   user = await userManager.createUser({ username, password });
 

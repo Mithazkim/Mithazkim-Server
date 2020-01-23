@@ -1,5 +1,6 @@
 import { Document, model, Schema } from 'mongoose';
 import Consts from '../utils/consts';
+import Errors from '../utils/error-messages';
 
 export interface IUser {
   username: string;
@@ -9,8 +10,8 @@ export interface IUser {
 export interface IUserDocument extends Document, IUser {}
 
 export const UserSchema = new Schema({
-  username: { type: String, required: true, unique: [true, 'err_username_required'], trim: true },
-  password: { type: String, required: [true, 'err_password_required'], trim: true }
+  username: { type: String, required: true, unique: [true, Errors.UserNameRequired], trim: true },
+  password: { type: String, required: [true, Errors.PasswordRequired], trim: true }
 });
 
 const User = model<IUserDocument>(Consts.db.userTableName, UserSchema, Consts.db.userTableName);
