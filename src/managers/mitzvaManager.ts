@@ -1,8 +1,7 @@
 import { mitzvaRepository } from '../repositories';
 import { IMitzva, IMitzvaDocument } from '../models/mitzvaModel';
-import { StartGreaterThanTotalError } from '../utils/errors';
+import { Errors, StartGreaterThanTotalError } from '../utils/errors';
 import { getStartIndexAndLimit } from '../utils/pagination';
-import Errors from '../utils/error-messages';
 
 export async function getMitzvot(
   search?: string,

@@ -1,10 +1,9 @@
-import { StartGreaterThanTotalError } from './../../utils/errors';
+import { Errors, StartGreaterThanTotalError } from './../../utils/errors';
 import { isObjectEmpty } from './../../utils/common';
 import express from 'express';
 import { IMitzva } from './../../models/mitzvaModel';
 import { mitzvaManager } from '../../managers';
 import auth from '../middlewares/auth';
-import Errors from '../../utils/error-messages';
 
 const router = express.Router();
 

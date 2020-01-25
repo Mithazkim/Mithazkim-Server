@@ -3,7 +3,7 @@ import express from 'express';
 import { IBerakhah } from './../../models/berakhahModel';
 import { berakhahManager } from '../../managers';
 import auth from '../middlewares/auth';
-import Errors from '../../utils/error-messages';
+import { Errors } from '../../utils/errors';
 
 const router = express.Router();
 
@@ -36,7 +36,7 @@ router.post('/', auth, async function(req, res) {
   const { shortName, fullName }: IBerakhah = req.body;
 
   // Simple validations
-  if (!fullName) return res.status(400).json({ msg: Errors.FullName });
+  if (!fullName) return res.status(400).json({ msg: Errors.FullNameRequired });
 
   const berakhah = await berakhahManager.createBerakhah({ fullName, shortName });
   res.status(201).json(berakhah);

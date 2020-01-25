@@ -1,6 +1,6 @@
 import { Document, model, Schema } from 'mongoose';
 import Consts from '../utils/consts';
-import Errors from '../utils/error-messages';
+import { Errors } from '../utils/errors';
 
 export interface IMitzva {
   title: string;

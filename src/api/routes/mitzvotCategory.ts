@@ -3,7 +3,7 @@ import express from 'express';
 import { IMitzvotCategory } from '../../models/mitzvotCategoryModel';
 import { mitzvotCategoryManager } from '../../managers';
 import auth from '../middlewares/auth';
-import Errors from '../../utils/error-messages';
+import { Errors } from '../../utils/errors';
 
 const router = express.Router();
 

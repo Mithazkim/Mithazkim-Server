@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
 import logger from '../../utils/logger';
-import Errors from '../../utils/error-messages';
+import { Errors } from '../../utils/errors';
 
 // Error middleware
 
@@ -15,6 +15,6 @@ export default function(err: any, req: Request, res: Response, next: NextFunctio
     return res.status(400).json({ msg: firstError.message });
   }
 
-  logger.error(Errors.MiddlewareException, err);
+  logger.error('Exception caught in error middleware - ', err);
   res.status(500).end();
 }

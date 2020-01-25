@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 import { userManager } from '../../managers';
 import * as jwtService from '../../services/jwtService';
 import auth from '../middlewares/auth';
-import Errors from '../../utils/error-messages';
+import { Errors } from '../../utils/errors';
 
 const router = express.Router();
 

@@ -1,8 +1,7 @@
 import { foodRepository } from '../repositories';
 import { IFood, IFoodDocument } from '../models/foodModel';
-import { StartGreaterThanTotalError } from '../utils/errors';
+import { Errors, StartGreaterThanTotalError } from '../utils/errors';
 import { getStartIndexAndLimit } from '../utils/pagination';
-import Errors from '../utils/error-messages';
 
 export async function getFood(search?: string, page?: string, limit?: string): Promise<[number, IFoodDocument[]]> {
   const total = await foodRepository.getFoodCount(search);
