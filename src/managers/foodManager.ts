@@ -1,6 +1,6 @@
 import { foodRepository } from '../repositories';
 import { IFood, IFoodDocument } from '../models/foodModel';
-import { StartGreaterThanTotalError } from '../utils/errors';
+import { Errors, StartGreaterThanTotalError } from '../utils/errors';
 import { getStartIndexAndLimit } from '../utils/pagination';
 
 export async function getFood(search?: string, page?: string, limit?: string): Promise<[number, IFoodDocument[]]> {
@@ -10,7 +10,7 @@ export async function getFood(search?: string, page?: string, limit?: string): P
 
   if (total === 0) return [0, []];
 
-  if (start > total) throw new StartGreaterThanTotalError('err_start_greater_than_total');
+  if (start > total) throw new StartGreaterThanTotalError(Errors.StartGreaterThenTotal);
 
   const food = await foodRepository.getFood(search, start, skip);
   return [total, food];

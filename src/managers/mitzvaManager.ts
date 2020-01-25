@@ -1,6 +1,6 @@
 import { mitzvaRepository } from '../repositories';
 import { IMitzva, IMitzvaDocument } from '../models/mitzvaModel';
-import { StartGreaterThanTotalError } from '../utils/errors';
+import { Errors, StartGreaterThanTotalError } from '../utils/errors';
 import { getStartIndexAndLimit } from '../utils/pagination';
 
 export async function getMitzvot(
@@ -17,7 +17,7 @@ export async function getMitzvot(
 
   if (total === 0) return [0, []];
 
-  if (start > total) throw new StartGreaterThanTotalError('err_start_greater_than_total');
+  if (start > total) throw new StartGreaterThanTotalError(Errors.StartGreaterThenTotal);
 
   const mitzvot = await mitzvaRepository.getMitzvot(search, categoryId, start, skip);
 

@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
 import logger from '../../utils/logger';
+import { Errors } from '../../utils/errors';
 
 // Error middleware
 
@@ -9,7 +10,7 @@ export default function(err: any, req: Request, res: Response, next: NextFunctio
   if (err && err instanceof mongoose.Error.ValidationError && err.errors) {
     const firstError = err.errors[Object.keys(err.errors)[0]];
     if (firstError instanceof mongoose.Error.CastError)
-      return res.status(400).json({ msg: 'err_invalid_value_for_' + firstError.path });
+      return res.status(400).json({ msg: Errors.InvalidValue + firstError.path });
 
     return res.status(400).json({ msg: firstError.message });
   }

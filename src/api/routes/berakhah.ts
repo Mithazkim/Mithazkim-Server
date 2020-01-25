@@ -3,6 +3,7 @@ import express from 'express';
 import { IBerakhah } from './../../models/berakhahModel';
 import { berakhahManager } from '../../managers';
 import auth from '../middlewares/auth';
+import { Errors } from '../../utils/errors';
 
 const router = express.Router();
 
@@ -35,7 +36,7 @@ router.post('/', auth, async function(req, res) {
   const { shortName, fullName }: IBerakhah = req.body;
 
   // Simple validations
-  if (!fullName) return res.status(400).json({ msg: 'fullName is required' });
+  if (!fullName) return res.status(400).json({ msg: Errors.FullNameRequired });
 
   const berakhah = await berakhahManager.createBerakhah({ fullName, shortName });
   res.status(201).json(berakhah);
@@ -48,7 +49,7 @@ router.post('/', auth, async function(req, res) {
  */
 router.put('/:id', auth, async function(req, res) {
   // Simple validations
-  if (isObjectEmpty(req.body)) return res.status(400).json({ msg: 'err_missing_fields' });
+  if (isObjectEmpty(req.body)) return res.status(400).json({ msg: Errors.MissingFields });
 
   const berakhah = await berakhahManager.updateBerakhah(req.params.id, req.body);
   res.status(200).json(berakhah);
