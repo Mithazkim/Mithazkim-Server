@@ -34,5 +34,5 @@ export enum Errors {
   CategoryTitleRequired = 'err_category_title_required',
   UserNameRequired = 'err_username_required',
   PasswordRequired = 'err_password_required',
-  WriterRequired = 'err_writer.required'
+  WriterRequired = 'err_writer_required'
 }

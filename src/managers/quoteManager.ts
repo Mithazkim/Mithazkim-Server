@@ -12,6 +12,7 @@ export function getQuoteById(id: string) {
 export function getRandomQuote() {
   return quoteRepository.getRandomQuote();
 }
+
 export function createQuote(quote: IQuote) {
   return quoteRepository.createQuote(quote);
 }

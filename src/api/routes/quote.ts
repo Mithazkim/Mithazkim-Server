@@ -10,7 +10,7 @@ const router = express.Router();
 /**
  * Get /api/quote
  * Public
- * Get all berakhot
+ * Get all quotes
  */
 router.get('/', async function(req, res) {
   const quotes = await quoteManager.getQuotes();
