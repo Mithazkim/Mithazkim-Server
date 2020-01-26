@@ -46,10 +46,6 @@ router.get('/:id', async function(req, res) {
 router.post('/', auth, async function(req, res) {
   const { title, writer }: IQuote = req.body;
 
-  // Simple validations
-  if (!title) return res.status(400).json({ msg: Errors.TitleRequired });
-  if (!writer) return res.status(400).json({ msg: Errors.WriterRequired });
-
   const quote = await quoteManager.createQuote({ title, writer });
   res.status(201).json(quote);
 });
