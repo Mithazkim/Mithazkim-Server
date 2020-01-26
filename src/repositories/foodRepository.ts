@@ -34,6 +34,10 @@ export function updateFood(id: string, food: IFood) {
   return Food.findByIdAndUpdate(id, food, { new: true, runValidators: true });
 }
 
+export function updateRank(id: string, quantity: number) {
+  return Food.findByIdAndUpdate(id, { $inc: { rank: quantity } });
+}
+
 export function deleteFood(id: string) {
   return Food.findByIdAndDelete(id);
 }

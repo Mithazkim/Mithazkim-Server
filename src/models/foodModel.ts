@@ -7,11 +7,12 @@ export interface IFood {
   berakhahId: string;
   active?: boolean;
   suggested?: boolean;
+  rank?: number;
 }
 
 export interface IFoodDocument extends Document, IFood {}
 
-export const foodSchema = new Schema({
+export const foodSchema = new Schema<IFoodDocument>({
   name: { type: String, required: [true, Errors.FoodNameRequired], trim: true, unique: true },
   berakhahId: {
     type: Schema.Types.ObjectId,
@@ -19,7 +20,8 @@ export const foodSchema = new Schema({
     ref: Consts.db.berakhotTableName
   },
   active: { type: Boolean, default: false },
-  suggested: { type: Boolean, default: false }
+  suggested: { type: Boolean, default: false },
+  rank: Number
 });
 
 const Food = model<IFoodDocument>(Consts.db.foodTableName, foodSchema, Consts.db.foodTableName);

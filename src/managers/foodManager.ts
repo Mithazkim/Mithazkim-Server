@@ -13,6 +13,14 @@ export async function getFood(search?: string, page?: string, limit?: string): P
   if (start > total) throw new StartGreaterThanTotalError(Errors.StartGreaterThenTotal);
 
   const food = await foodRepository.getFood(search, start, skip);
+  for (const item of food as IFoodDocument[]) {
+    if (item.name.startsWith(search))
+      if (item.name === search) {
+        foodRepository.updateRank(item._id, 1).exec();
+        break;
+      } else continue;
+    else break;
+  }
   return [total, food];
 }
 
