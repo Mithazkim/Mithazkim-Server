@@ -33,5 +33,6 @@ export enum Errors {
   MitzvaCategoryIdRequired = 'err_mitzva_categoryId_required',
   CategoryTitleRequired = 'err_category_title_required',
   UserNameRequired = 'err_username_required',
-  PasswordRequired = 'err_password_required'
+  PasswordRequired = 'err_password_required',
+  WriterRequired = 'err_writer.required'
 }
