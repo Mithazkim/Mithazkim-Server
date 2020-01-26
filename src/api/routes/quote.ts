@@ -18,16 +18,6 @@ router.get('/', async function(req, res) {
 });
 
 /**
- * GET /api/quote/:id
- * Public
- * Get quote by id
- */
-router.get('/:id', async function(req, res) {
-  const quote = await quoteManager.getQuoteById(req.params.id);
-  res.status(200).send(quote);
-});
-
-/**
  * GET /api/quote/random
  * Public
  * Get random quote
@@ -35,6 +25,16 @@ router.get('/:id', async function(req, res) {
 router.get('/random', async function(req, res) {
   console.log('test');
   const quote = await quoteManager.getRandomQuote();
+  res.status(200).send(quote);
+});
+
+/**
+ * GET /api/quote/:id
+ * Public
+ * Get quote by id
+ */
+router.get('/:id', async function(req, res) {
+  const quote = await quoteManager.getQuoteById(req.params.id);
   res.status(200).send(quote);
 });
 
