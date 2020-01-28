@@ -1,18 +1,21 @@
-import { IFoodDocument } from './../models/foodModel';
-import { DocumentQuery } from 'mongoose';
 import Food, { IFood } from '../models/foodModel';
 
 export function getFood(search: string, startIndex: number, limit: number) {
-  let query: DocumentQuery<IFoodDocument[], IFoodDocument, {}>;
+  const aggregations = [];
 
-  const condition = search ? { name: { $regex: search } } : null;
-  query = Food.find(condition);
-
+  if (search) {
+    aggregations.push(
+      { $match: { name: { $regex: search } } },
+      { $addFields: { score: { $indexOfCP: ['$name', search] } } },
+      { $sort: { score: 1 } },
+      { $unset: ['score'] }
+    );
+  }
   if (limit) {
-    query = query.skip(startIndex || 0).limit(limit);
+    aggregations.push({ $skip: startIndex || 0 }, { $limit: limit });
   }
 
-  return query;
+  return aggregations.length === 0 ? Food.find() : Food.aggregate(aggregations);
 }
 
 export function getFoodById(id: string) {
@@ -29,6 +32,10 @@ export function createFood(food: IFood) {
 
 export function updateFood(id: string, food: IFood) {
   return Food.findByIdAndUpdate(id, food, { new: true, runValidators: true });
+}
+
+export function updateRank(id: string, quantity: number) {
+  return Food.findByIdAndUpdate(id, { $inc: { rank: quantity } });
 }
 
 export function deleteFood(id: string) {

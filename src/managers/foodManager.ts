@@ -3,6 +3,17 @@ import { IFood, IFoodDocument } from '../models/foodModel';
 import { Errors, StartGreaterThanTotalError } from '../utils/errors';
 import { getStartIndexAndLimit } from '../utils/pagination';
 
+function CheckIfSearchMatch(food: IFoodDocument[], search: string) {
+  for (const item of food) {
+    if (item.name.startsWith(search))
+      if (item.name === search) {
+        foodRepository.updateRank(item._id, 1).exec();
+        break;
+      } else continue;
+    else break;
+  }
+}
+
 export async function getFood(search?: string, page?: string, limit?: string): Promise<[number, IFoodDocument[]]> {
   const total = await foodRepository.getFoodCount(search);
 
@@ -13,6 +24,9 @@ export async function getFood(search?: string, page?: string, limit?: string): P
   if (start > total) throw new StartGreaterThanTotalError(Errors.StartGreaterThenTotal);
 
   const food = await foodRepository.getFood(search, start, skip);
+
+  if (search) CheckIfSearchMatch(food, search);
+
   return [total, food];
 }
 
