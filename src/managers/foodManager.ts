@@ -3,10 +3,10 @@ import { IFood, IFoodDocument } from '../models/foodModel';
 import { Errors, StartGreaterThanTotalError } from '../utils/errors';
 import { getStartIndexAndLimit } from '../utils/pagination';
 
-function CheckIfSearchMatch(food: IFoodDocument[], search: string, user: User) {
+function CheckIfSearchMatch(food: IFoodDocument[], search: string) {
   for (const item of food) {
     if (item.name.startsWith(search))
-      if (item.name === search && !user) {
+      if (item.name === search) {
         foodRepository.updateRank(item._id, 1).exec();
         break;
       } else continue;
@@ -30,7 +30,7 @@ export async function getFood(
 
   const food = await foodRepository.getFood(search, start, skip);
 
-  if (search) CheckIfSearchMatch(food, search, user);
+  if (search && !user) CheckIfSearchMatch(food, search);
 
   return [total, food];
 }

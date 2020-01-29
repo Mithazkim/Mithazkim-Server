@@ -4,7 +4,7 @@ import express from 'express';
 import { IFood } from './../../models/foodModel';
 import { foodManager } from '../../managers';
 import auth from '../middlewares/auth';
-import admin from '../middlewares/admin';
+import parseToken from '../middlewares/parseToken';
 
 const router = express.Router();
 
@@ -13,7 +13,7 @@ const router = express.Router();
  * Public
  * get all food
  */
-router.get('/', admin, async function(req, res) {
+router.get('/', parseToken, async function(req, res) {
   const { search, page, limit } = req.query;
   try {
     const [total, data] = await foodManager.getFood(search, page, limit, req.user);
