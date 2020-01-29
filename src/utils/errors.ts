@@ -7,8 +7,8 @@ export class StartGreaterThanTotalError extends Error {
 export enum Errors {
   NoToken = 'err_no_token_authorization_denied',
   InvalidToken = 'err_invalid_token',
-
   InvalidValue = 'err_invalid_value_for_',
+  AdminRankUpdate = 'err_admin_can_not_update_mitzva_rank',
 
   //routes:
   FullNameRequired = 'err_fullName_is_required',
