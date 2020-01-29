@@ -4,6 +4,7 @@ import express from 'express';
 import { IMitzva } from './../../models/mitzvaModel';
 import { mitzvaManager } from '../../managers';
 import auth from '../middlewares/auth';
+import parseToken from '../middlewares/parseToken';
 
 const router = express.Router();
 
@@ -60,9 +61,13 @@ router.post('/', auth, async function(req, res) {
  * Public
  * Update rank value
  */
-router.post('/r/:id', async function(req, res) {
-  await mitzvaManager.updateRank(req.params.id);
-  res.status(200).end();
+router.post('/r/:id', parseToken, async function(req, res) {
+  if (req.user) {
+    return res.status(400).json({ msg: Errors.AdminRankUpdate });
+  } else {
+    await mitzvaManager.updateRank(req.params.id);
+    res.status(200).end();
+  }
 });
 
 /**

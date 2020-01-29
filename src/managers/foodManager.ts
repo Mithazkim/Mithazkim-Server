@@ -14,7 +14,12 @@ function CheckIfSearchMatch(food: IFoodDocument[], search: string) {
   }
 }
 
-export async function getFood(search?: string, page?: string, limit?: string): Promise<[number, IFoodDocument[]]> {
+export async function getFood(
+  search?: string,
+  page?: string,
+  limit?: string,
+  user?: User
+): Promise<[number, IFoodDocument[]]> {
   const total = await foodRepository.getFoodCount(search);
 
   const [start, skip] = getStartIndexAndLimit(page, limit);
@@ -25,7 +30,7 @@ export async function getFood(search?: string, page?: string, limit?: string): P
 
   const food = await foodRepository.getFood(search, start, skip);
 
-  if (search) CheckIfSearchMatch(food, search);
+  if (search && !user) CheckIfSearchMatch(food, search);
 
   return [total, food];
 }
