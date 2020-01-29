@@ -62,8 +62,12 @@ router.post('/', auth, async function(req, res) {
  * Update rank value
  */
 router.post('/r/:id', admin, async function(req, res) {
-  await mitzvaManager.updateRank(req.params.id);
-  res.status(200).end();
+  if (req.user) {
+    return res.status(400).json({ msg: Errors.AdminRankUpdate });
+  } else {
+    await mitzvaManager.updateRank(req.params.id);
+    res.status(200).end();
+  }
 });
 
 /**

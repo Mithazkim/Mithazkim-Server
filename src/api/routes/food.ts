@@ -4,6 +4,7 @@ import express from 'express';
 import { IFood } from './../../models/foodModel';
 import { foodManager } from '../../managers';
 import auth from '../middlewares/auth';
+import admin from '../middlewares/admin';
 
 const router = express.Router();
 
@@ -12,11 +13,10 @@ const router = express.Router();
  * Public
  * get all food
  */
-router.get('/', async function(req, res) {
+router.get('/', admin, async function(req, res) {
   const { search, page, limit } = req.query;
-
   try {
-    const [total, data] = await foodManager.getFood(search, page, limit);
+    const [total, data] = await foodManager.getFood(search, page, limit, req.user);
     res.status(200).send({ total, data });
   } catch (error) {
     if (error instanceof StartGreaterThanTotalError) {

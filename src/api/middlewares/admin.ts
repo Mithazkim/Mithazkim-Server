@@ -8,7 +8,6 @@ export default function(req: Request, res: Response, next: NextFunction) {
   const token = getTokenFromHeader(req);
 
   // Check for token
-  console.log(`token: ${token}`);
   if (!token) {
     next();
   } else {
@@ -17,7 +16,9 @@ export default function(req: Request, res: Response, next: NextFunction) {
       const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET_KEY) as User;
       if (!decoded) return res.status(401).json({ msg: Errors.InvalidToken });
 
-      return res.status(400).json({ msg: Errors.AdminRankUpdate });
+      // Attach user to req.user
+      req.user = { ...decoded };
+      next();
     } catch {
       res.status(401).json({ msg: Errors.InvalidToken });
     }
