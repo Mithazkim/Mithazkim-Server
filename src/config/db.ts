@@ -10,8 +10,8 @@ const connectionString = `mongodb+srv://${process.env.MONGO_DB_USER}:${process.e
 const mongooseOptions: ConnectionOptions = {
   useNewUrlParser: true,
   useCreateIndex: true,
-  useFindAndModify: false
-  //useUnifiedTopology: true
+  useFindAndModify: false,
+  useUnifiedTopology: true
 };
 
 const connectToDb = () =>

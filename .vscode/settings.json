@@ -6,6 +6,5 @@
     "**/dist": true,
     "**/coverage": true
   },
-  "cSpell.words": ["Mitzvot", "berakhah", "berakhot", "category", "cond", "consts", "mitzva"],
-  "cSpell.ignoreWords": ["category", "i", "mitzva"]
+  "cSpell.words": ["Mitzvot", "Shabtay", "berakhah", "berakhot", "category", "cond", "consts", "mithazkim", "mitzva"]
 }
