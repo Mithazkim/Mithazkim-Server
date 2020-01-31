@@ -17,10 +17,10 @@ router.get('/', parseToken, async function(req, res) {
   const { search, page, limit } = req.query;
   try {
     const [total, data] = await foodManager.getFood(search, page, limit, req.user);
-    res.status(200).send({ total, data });
+    res.status(200).json({ total, data });
   } catch (error) {
     if (error instanceof StartGreaterThanTotalError) {
-      return res.status(400).send({ msg: error.message });
+      return res.status(400).json({ msg: error.message });
     }
     throw error;
   }
@@ -33,7 +33,7 @@ router.get('/', parseToken, async function(req, res) {
  */
 router.get('/:id', async function(req, res) {
   const food = await foodManager.getFoodById(req.params.id);
-  res.status(200).send(food);
+  res.status(200).json(food);
 });
 
 /**

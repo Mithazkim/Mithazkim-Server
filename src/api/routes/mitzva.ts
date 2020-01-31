@@ -18,10 +18,10 @@ router.get('/', async function(req, res) {
 
   try {
     const [total, data] = await mitzvaManager.getMitzvot(search, categoryId, page, limit);
-    res.status(200).send({ total, data });
+    res.status(200).json({ total, data });
   } catch (error) {
     if (error instanceof StartGreaterThanTotalError) {
-      return res.status(400).send({ msg: error.message });
+      return res.status(400).json({ msg: error.message });
     }
     throw error;
   }
@@ -34,7 +34,7 @@ router.get('/', async function(req, res) {
  */
 router.get('/:id', async function(req, res) {
   const mitzva = await mitzvaManager.getMitzvaById(req.params.id);
-  res.status(200).send(mitzva);
+  res.status(200).json(mitzva);
 });
 
 /**

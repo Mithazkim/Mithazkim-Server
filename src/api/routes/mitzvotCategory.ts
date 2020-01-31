@@ -14,7 +14,7 @@ const router = express.Router();
  */
 router.get('/', async function(req, res) {
   const categories = await mitzvotCategoryManager.getCategories();
-  res.status(200).send(categories);
+  res.status(200).json(categories);
 });
 
 /**
@@ -24,7 +24,7 @@ router.get('/', async function(req, res) {
  */
 router.get('/:id', async function(req, res) {
   const category = await mitzvotCategoryManager.getCategoryById(req.params.id);
-  res.status(200).send(category);
+  res.status(200).json(category);
 });
 
 /**

@@ -14,7 +14,7 @@ const router = express.Router();
  */
 router.get('/', async function(req, res) {
   const berakhot = await berakhahManager.getBerakhot();
-  res.status(200).send(berakhot);
+  res.status(200).json(berakhot);
 });
 
 /**
@@ -24,7 +24,7 @@ router.get('/', async function(req, res) {
  */
 router.get('/:id', async function(req, res) {
   const berakhah = await berakhahManager.getBerakhahById(req.params.id);
-  res.status(200).send(berakhah);
+  res.status(200).json(berakhah);
 });
 
 /**
