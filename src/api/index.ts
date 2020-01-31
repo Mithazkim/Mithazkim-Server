@@ -3,7 +3,6 @@ import cors from 'cors';
 import morgan from 'morgan';
 import helmet from 'helmet';
 import compression from 'compression';
-import useragent from 'express-useragent';
 import session from 'cookie-session';
 import 'express-async-errors'; // handle all async errors and send them to error middleware.
 
@@ -36,9 +35,6 @@ function initMiddlewares(app: express.Application) {
   app.use(
     session({ name: 'hasBeenHere', keys: [process.env.SESSION_SECRET], maxAge: +process.env.SESSION_EXPIRED_IN })
   );
-
-  // Parse useragent header into req.useragent
-  app.use(useragent.express());
 
   app.use(saveUserMetadataMiddleware);
 }
