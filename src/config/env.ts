@@ -6,5 +6,5 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 const envFound = dotenv.config();
 
 if (envFound.error) {
-  console.info(`⚠️  Couldn't find .env file  ⚠️`);
+  console.warn(`⚠️  Couldn't find .env file  ⚠️`);
 }

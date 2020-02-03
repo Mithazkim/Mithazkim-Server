@@ -14,7 +14,7 @@ const router = express.Router();
  */
 router.get('/', async function(req, res) {
   const quotes = await quoteManager.getQuotes();
-  res.status(200).send(quotes);
+  res.status(200).json(quotes);
 });
 
 /**
@@ -25,7 +25,7 @@ router.get('/', async function(req, res) {
 router.get('/random', async function(req, res) {
   console.log('test');
   const quote = await quoteManager.getRandomQuote();
-  res.status(200).send(quote);
+  res.status(200).json(quote);
 });
 
 /**
@@ -35,7 +35,7 @@ router.get('/random', async function(req, res) {
  */
 router.get('/:id', async function(req, res) {
   const quote = await quoteManager.getQuoteById(req.params.id);
-  res.status(200).send(quote);
+  res.status(200).json(quote);
 });
 
 /**
