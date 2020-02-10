@@ -4,7 +4,7 @@ import routes from './api';
 import './config/env'; // must import .env before using the process.env
 import connectToDb from './config/db';
 
-const app = express();
+export const app = express();
 
 routes(app);
 
