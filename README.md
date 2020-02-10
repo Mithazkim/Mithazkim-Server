@@ -1,8 +1,9 @@
 # Mithazkim-Server
+
 [Heroku](https://mithazkim.herokuapp.com/)
 
-
 [![CircleCI](https://circleci.com/gh/Mithazkim/Mithazkim-Server/tree/master.svg?style=svg)](https://circleci.com/gh/Mithazkim/Mithazkim-Server/tree/master)
+[![Known Vulnerabilities](https://snyk.io/test/github/Mithazkim/Mithazkim-Server/badge.svg)](https://snyk.io/test/github/Mithazkim/Mithazkim-Server)
 
 To start the server:
 
