@@ -13,7 +13,7 @@ const router = express.Router();
  * Public
  * Get all mitzvot
  */
-router.get('/', async function(req, res) {
+router.get('/', async function (req, res) {
   const { search, categoryId, page, limit } = req.query;
 
   try {
@@ -32,7 +32,7 @@ router.get('/', async function(req, res) {
  * Public
  * get mitzva by id
  */
-router.get('/:id', async function(req, res) {
+router.get('/:id', async function (req, res) {
   const mitzva = await mitzvaManager.getMitzvaById(req.params.id);
   res.status(200).json(mitzva);
 });
@@ -42,7 +42,7 @@ router.get('/:id', async function(req, res) {
  * Private
  * Add mitzva
  */
-router.post('/', auth, async function(req, res) {
+router.post('/', auth, async function (req, res) {
   const { title, categoryId }: IMitzva = req.body;
 
   //simple validation
@@ -61,7 +61,7 @@ router.post('/', auth, async function(req, res) {
  * Public
  * Update rank value
  */
-router.post('/r/:id', parseToken, async function(req, res) {
+router.post('/r/:id', parseToken, async function (req, res) {
   if (req.user) {
     return res.status(400).json({ msg: Errors.AdminRankUpdate });
   } else {
@@ -75,7 +75,7 @@ router.post('/r/:id', parseToken, async function(req, res) {
  * Private
  * Edit mitzva
  */
-router.patch('/:id', auth, async function(req, res) {
+router.patch('/:id', auth, async function (req, res) {
   //simple validation
   if (isObjectEmpty(req.body)) return res.status(400).json(Errors.MissingFields);
 
@@ -88,7 +88,7 @@ router.patch('/:id', auth, async function(req, res) {
  * Private
  * Delete mitzva
  */
-router.delete('/:id', auth, async function(req, res) {
+router.delete('/:id', auth, async function (req, res) {
   const mitzva = await mitzvaManager.deleteMitzva(req.params.id);
   res.status(200).json(mitzva);
 });

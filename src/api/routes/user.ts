@@ -12,7 +12,7 @@ const router = express.Router();
  * Public
  * Login with username and password
  */
-router.post('/login', async function(req, res) {
+router.post('/login', async function (req, res) {
   const { username, password }: { username: string; password: string } = req.body;
 
   // Simple validation

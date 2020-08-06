@@ -12,7 +12,7 @@ const router = express.Router();
  * Public
  * Get all quotes
  */
-router.get('/', async function(req, res) {
+router.get('/', async function (req, res) {
   const quotes = await quoteManager.getQuotes();
   res.status(200).json(quotes);
 });
@@ -22,7 +22,7 @@ router.get('/', async function(req, res) {
  * Public
  * Get random quote
  */
-router.get('/random', async function(req, res) {
+router.get('/random', async function (req, res) {
   console.log('test');
   const quote = await quoteManager.getRandomQuote();
   res.status(200).json(quote);
@@ -33,7 +33,7 @@ router.get('/random', async function(req, res) {
  * Public
  * Get quote by id
  */
-router.get('/:id', async function(req, res) {
+router.get('/:id', async function (req, res) {
   const quote = await quoteManager.getQuoteById(req.params.id);
   res.status(200).json(quote);
 });
@@ -43,7 +43,7 @@ router.get('/:id', async function(req, res) {
  * Private
  * Add quote
  */
-router.post('/', auth, async function(req, res) {
+router.post('/', auth, async function (req, res) {
   const { title, writer }: IQuote = req.body;
 
   const quote = await quoteManager.createQuote({ title, writer });
@@ -55,7 +55,7 @@ router.post('/', auth, async function(req, res) {
  * Private
  * Edit quote
  */
-router.patch('/:id', auth, async function(req, res) {
+router.patch('/:id', auth, async function (req, res) {
   // Simple validations
   if (isObjectEmpty(req.body)) return res.status(400).json({ msg: Errors.MissingFields });
 
@@ -68,7 +68,7 @@ router.patch('/:id', auth, async function(req, res) {
  * Private
  * delete quote
  */
-router.delete('/:id', auth, async function(req, res) {
+router.delete('/:id', auth, async function (req, res) {
   const quote = await quoteManager.deleteQuote(req.params.id);
   res.status(200).json(quote);
 });
