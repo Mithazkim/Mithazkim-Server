@@ -16,4 +16,5 @@ export const hashPassword = async (password: string) => {
   return bcrypt.hash(password.trim(), salt);
 };
 
-export const isObjectEmpty = (obj: {}) => Object.entries(obj).length === 0 && obj.constructor === Object;
+export const isObjectEmpty = (obj: Record<string, unknown>) =>
+  Object.entries(obj).length === 0 && obj.constructor === Object;

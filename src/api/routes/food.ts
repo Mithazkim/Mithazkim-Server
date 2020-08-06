@@ -8,12 +8,18 @@ import parseToken from '../middlewares/parseToken';
 
 const router = express.Router();
 
+interface GetFoodQuery {
+  search: string;
+  page: string;
+  limit: string;
+}
+
 /**
  * Get /api/food
  * Public
  * get all food
  */
-router.get('/', parseToken, async function(req, res) {
+router.get<never, any, never, GetFoodQuery>('/', parseToken as any, async function (req, res) {
   const { search, page, limit } = req.query;
   try {
     const [total, data] = await foodManager.getFood(search, page, limit, req.user);
@@ -31,7 +37,7 @@ router.get('/', parseToken, async function(req, res) {
  * Public
  * get food by id
  */
-router.get('/:id', async function(req, res) {
+router.get('/:id', async function (req, res) {
   const food = await foodManager.getFoodById(req.params.id);
   res.status(200).json(food);
 });
@@ -41,7 +47,7 @@ router.get('/:id', async function(req, res) {
  * Private
  * Add food
  */
-router.post('/', auth, async function(req, res) {
+router.post('/', auth, async function (req, res) {
   const { name, berakhahId }: IFood = req.body;
 
   // Simple validations
@@ -60,7 +66,7 @@ router.post('/', auth, async function(req, res) {
  * Private
  * Edit food
  */
-router.patch('/:id', auth, async function(req, res) {
+router.patch('/:id', auth, async function (req, res) {
   // Simple validations
   if (isObjectEmpty(req.body)) return res.status(400).json({ msg: Errors.MissingFields });
 
@@ -73,7 +79,7 @@ router.patch('/:id', auth, async function(req, res) {
  * Private
  * delete food
  */
-router.delete('/:id', auth, async function(req, res) {
+router.delete('/:id', auth, async function (req, res) {
   const food = await foodManager.deleteFood(req.params.id);
   res.status(200).json(food);
 });

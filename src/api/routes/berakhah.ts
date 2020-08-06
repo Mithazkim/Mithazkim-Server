@@ -12,7 +12,7 @@ const router = express.Router();
  * Public
  * get all berakhot
  */
-router.get('/', async function(req, res) {
+router.get('/', async function (req, res) {
   const berakhot = await berakhahManager.getBerakhot();
   res.status(200).json(berakhot);
 });
@@ -22,7 +22,7 @@ router.get('/', async function(req, res) {
  * Public
  * get berakhah by id
  */
-router.get('/:id', async function(req, res) {
+router.get('/:id', async function (req, res) {
   const berakhah = await berakhahManager.getBerakhahById(req.params.id);
   res.status(200).json(berakhah);
 });
@@ -32,7 +32,7 @@ router.get('/:id', async function(req, res) {
  * Private
  * Add berakhah
  */
-router.post('/', auth, async function(req, res) {
+router.post('/', auth, async function (req, res) {
   const { shortName, fullName }: IBerakhah = req.body;
 
   // Simple validations
@@ -47,7 +47,7 @@ router.post('/', auth, async function(req, res) {
  * Private
  * Add berakhah
  */
-router.put('/:id', auth, async function(req, res) {
+router.put('/:id', auth, async function (req, res) {
   // Simple validations
   if (isObjectEmpty(req.body)) return res.status(400).json({ msg: Errors.MissingFields });
 
@@ -60,7 +60,7 @@ router.put('/:id', auth, async function(req, res) {
  * Private
  * delete berakhah
  */
-router.delete('/:id', auth, async function(req, res) {
+router.delete('/:id', auth, async function (req, res) {
   const berakhah = await berakhahManager.deleteBerakhah(req.params.id);
   res.status(200).json(berakhah);
 });

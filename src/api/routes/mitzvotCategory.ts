@@ -12,7 +12,7 @@ const router = express.Router();
  * Public
  * get all categories
  */
-router.get('/', async function(req, res) {
+router.get('/', async function (req, res) {
   const categories = await mitzvotCategoryManager.getCategories();
   res.status(200).json(categories);
 });
@@ -22,7 +22,7 @@ router.get('/', async function(req, res) {
  * Public
  * get category by id
  */
-router.get('/:id', async function(req, res) {
+router.get('/:id', async function (req, res) {
   const category = await mitzvotCategoryManager.getCategoryById(req.params.id);
   res.status(200).json(category);
 });
@@ -32,7 +32,7 @@ router.get('/:id', async function(req, res) {
  * Private
  * Add category
  */
-router.post('/', auth, async function(req, res) {
+router.post('/', auth, async function (req, res) {
   const { title }: IMitzvotCategory = req.body;
 
   //Simple validation
@@ -47,7 +47,7 @@ router.post('/', auth, async function(req, res) {
  * Private
  * Edit category
  */
-router.patch('/:id', auth, async function(req, res) {
+router.patch('/:id', auth, async function (req, res) {
   // Simple validations
   if (isObjectEmpty(req.body)) return res.status(400).json({ msg: Errors.MissingFields });
 
@@ -60,7 +60,7 @@ router.patch('/:id', auth, async function(req, res) {
  * Private
  * Delete category
  */
-router.delete('/:id', auth, async function(req, res) {
+router.delete('/:id', auth, async function (req, res) {
   const category = await mitzvotCategoryManager.deleteCategory(req.params.id);
   res.status(200).json(category);
 });

@@ -3,8 +3,8 @@
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
 version: 2.1
-orbs:
-  snyk: snyk/snyk@0.0.8
+# orbs:
+# snyk: snyk/snyk@0.0.8
 jobs:
   build:
     docker:
@@ -32,7 +32,7 @@ jobs:
           name: 'Install npm modules'
           command: yarn install
 
-      - snyk/scan
+      # - snyk/scan
 
       - save_cache:
           paths:
