@@ -8,12 +8,19 @@ import parseToken from '../middlewares/parseToken';
 
 const router = express.Router();
 
+interface GetMitzvaQuery {
+  search: string;
+  categoryId: string;
+  page: string;
+  limit: string;
+}
+
 /**
  * GET /api/mitzva
  * Public
  * Get all mitzvot
  */
-router.get('/', async function (req, res) {
+router.get<never, any, never, GetMitzvaQuery>('/', async function (req, res) {
   const { search, categoryId, page, limit } = req.query;
 
   try {

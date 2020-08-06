@@ -8,12 +8,18 @@ import parseToken from '../middlewares/parseToken';
 
 const router = express.Router();
 
+interface GetFoodQuery {
+  search: string;
+  page: string;
+  limit: string;
+}
+
 /**
  * Get /api/food
  * Public
  * get all food
  */
-router.get('/', parseToken, async function (req, res) {
+router.get<never, any, never, GetFoodQuery>('/', parseToken as any, async function (req, res) {
   const { search, page, limit } = req.query;
   try {
     const [total, data] = await foodManager.getFood(search, page, limit, req.user);
