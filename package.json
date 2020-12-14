@@ -61,7 +61,7 @@
     "express-useragent": "^1.0.15",
     "helmet": "^4.0.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.9.27",
+    "mongoose": "^5.11.7",
     "morgan": "^1.10.0",
     "snyk": "^1.369.3",
     "winston": "^3.3.3"
